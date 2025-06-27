@@ -1,7 +1,7 @@
 let offset = 0;
 let isLoading = false;
 let allData = [];
-const API_BASE = window.API_BASE || "http://localhost:8080";
+const API_BASE = window.API_BASE || "https://hot-peppers.onrender.com";
 
 function fetchPeppers() {
   if (isLoading) return;
