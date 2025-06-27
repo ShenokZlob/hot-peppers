@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Перцы с прокруткой</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="/static/table.js"></script>
+  <style>
+    #tableContainer {
+      height: 400px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body class="p-4">
+  <div class="container">
+    <h2 class="mb-4">Список острых перцев</h2>
+
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <input id="searchInput" class="form-control" type="text" placeholder="Поиск по названию...">
+      </div>
+      <div class="col-md-4">
+        <input id="shuMidFilter" class="form-control" type="number" placeholder="Мин. SHU Mid">
+      </div>
+      <div class="col-md-4">
+        <input id="shuUpFilter" class="form-control" type="number" placeholder="Макс. SHU Up">
+      </div>
+    </div>
+
+    <div id="tableContainer">
+      <table class="table table-bordered table-hover mb-0" id="pepperTable">
+        <thead class="table-light sticky-top">
+          <tr>
+            <th>Название</th>
+            <th>SHU Low</th>
+            <th>SHU Mid</th>
+            <th>SHU Up</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Данные будут подгружаться сюда -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- <script>
+    const searchInput = document.getElementById('searchInput');
+    const shuMidFilter = document.getElementById('shuMidFilter');
+    const shuUpFilter = document.getElementById('shuUpFilter');
+    const tableBody = document.querySelector('#pepperTable tbody');
+    const container = document.getElementById('tableContainer');
+
+    let offset = 0;
+    let isLoading = false;
+    let allData = [];
+
+    async function fetchPeppers() {
+      if (isLoading) return;
+      isLoading = true;
+
+      try {
+        const response = await fetch(`http://localhost:8080/scroll?offset=${offset}`);
+        const data = await response.json();
+
+        data.forEach(item => {
+          allData.push(item);
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>
+              <a href="/pepper/${encodeURIComponent(item.name)}" class="text-decoration-underline link-primary" target="_blank">
+                ${item.name}
+              </a>
+            </td>
+            <td>${item.shu_low}</td>
+            <td>${item.shu_mid}</td>
+            <td>${item.shu_up}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+
+        offset += data.length;
+        filterTable(); // применяем фильтр к новым строкам
+      } catch (err) {
+        console.error('Ошибка загрузки:', err);
+      }
+
+      isLoading = false;
+    }
+
+    function filterTable() {
+      const query = searchInput.value.toLowerCase();
+      const minMid = parseInt(shuMidFilter.value) || 0;
+      const maxUp = parseInt(shuUpFilter.value) || Infinity;
+
+      const rows = tableBody.querySelectorAll('tr');
+      rows.forEach(row => {
+        const name = row.cells[0].textContent.toLowerCase();
+        const shuMid = parseInt(row.cells[2].textContent);
+        const shuUp = parseInt(row.cells[3].textContent);
+
+        const matchName = name.includes(query);
+        const matchMid = shuMid >= minMid;
+        const matchUp = shuUp <= maxUp;
+
+        row.style.display = (matchName && matchMid && matchUp) ? "" : "none";
+      });
+    }
+
+    container.addEventListener('scroll', () => {
+      if (container.scrollTop + container.clientHeight >= container.scrollHeight - 20) {
+        fetchPeppers();
+      }
+    });
+
+    searchInput.addEventListener('input', filterTable);
+    shuMidFilter.addEventListener('input', filterTable);
+    shuUpFilter.addEventListener('input', filterTable);
+
+    // Первая загрузка
+    fetchPeppers();
+  </script> -->
+</body>
+</html>
