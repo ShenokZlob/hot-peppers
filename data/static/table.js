@@ -33,9 +33,13 @@ function renderTable() {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>
-        <button class="btn btn-link p-0 pepper-link" data-name="${encodeURIComponent(item.name)}">
+        <a 
+          href="${API_BASE}/pepper/${encodeURIComponent(item.name)}" 
+          class="text-decoration-underline link-primary pepper-link" 
+          target="_blank"
+        >
           ${item.name}
-        </button>
+        </a>
       </td>
       <td>${item.shu_low}</td>
       <td>${item.shu_mid}</td>
@@ -46,27 +50,27 @@ function renderTable() {
 });
 }
 
-document.querySelectorAll('.pepper-link').forEach(btn => {
-  btn.addEventListener('click', function () {
-    const name = this.getAttribute('data-name');
-    fetch(`${API_BASE}/pepper/${name}`)
-      .then(response => response.text())
-      .then(html => {
-        const content = document.getElementById('content');
-        content.innerHTML = `
-          <div>
-            <button id="back-btn" class="btn btn-outline-light mb-3">← Назад</button>
-            <div id="pepper-detail">${html}</div>
-          </div>
-        `;
+// document.querySelectorAll('.pepper-link').forEach(btn => {
+//   btn.addEventListener('click', function () {
+//     const name = this.getAttribute('data-name');
+//     fetch(`${API_BASE}/pepper/${name}`)
+//       .then(response => response.text())
+//       .then(html => {
+//         const content = document.getElementById('content');
+//         content.innerHTML = `
+//           <div>
+//             <button id="back-btn" class="btn btn-outline-light mb-3">← Назад</button>
+//             <div id="pepper-detail">${html}</div>
+//           </div>
+//         `;
 
-        document.getElementById('back-btn').addEventListener('click', function () {
-          location.reload(); // или вручную восстанови исходный вид
-        });
-      })
-      .catch(() => alert('Ошибка загрузки перца'));
-  });
-});
+//         document.getElementById('back-btn').addEventListener('click', function () {
+//           location.reload(); // или вручную восстанови исходный вид
+//         });
+//       })
+//       .catch(() => alert('Ошибка загрузки перца'));
+//   });
+// });
 
 function initTable() {
   offset = 0;
